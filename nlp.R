@@ -2,12 +2,13 @@ library(stringr)
 library(dplyr)
 library(sqldf)
 library(spacyr)
-library(quanteda)
 library(tidytext)
 library(textdata)
 library(utf8)
 library(tm)
 library(qdap)
+library(tidyr)
+library(ggplot2)
 
 ##### read the txt
 friendsLines <- readLines("Friends.txt", encoding = "UTF-8")
@@ -20,13 +21,13 @@ friendsLines_NFC <- utf8_normalize(friendsLines)
 sum(friendsLines_NFC != friendsLines)
 
 ##### data process
-corpus <- Corpus(VectorSource(friendsLines))
-corpus <- tm_map(corpus, content_transformer(function(x){replace_contraction(x)}))
+#corpus <- Corpus(VectorSource(friendsLines))
+c#orpus <- tm_map(corpus, content_transformer(function(x){replace_contraction(x)}))
 
 df <- data.frame(script= friendsLines)
 
 characters <- c("Chandler", "Joey", "Monica", "Phoebe", "Rachel", "Ross" )
-df <- df[-1]
+#df <- df[-1]
 colnames(df) <- "script"
 
 df$char <- with(df, case_when(startsWith (df$script, "Monica:")~"Monica",
@@ -132,21 +133,6 @@ nrc_grouped <- aggregate(sentiment ~ word, data = nrc, c)
 sentimentMonica <-  sentimentMonica %>%
   right_join(nrc_grouped) 
 
-library(tidyr)
-
-bing_sentimentMonica <- df_tokensMonica %>%
-  inner_join(get_sentiments("bing")) %>%
-  count(word, index = as.numeric(row.names(bing_sentimentMonica)),  sentiment) %>%
-  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) %>% 
-  mutate(sentiment = positive - negative)
-
-
-library(ggplot2)
-
-bing_sentimentMonica$index <- as.numeric(row.names(bing_sentimentMonica))
-ggplot(bing_sentimentMonica, aes(index,sentiment))+
-  geom_bar(stat = 'identity')
-
 
 ############# Sentence Analysis ###########
 
@@ -181,8 +167,7 @@ v <- unlist(subtoks2)
 #############Distance between the texts########################
 
 library(quanteda)
-#dataList <- paste(unlist(df_grouped), collapse="\n")
-#texts <- unlist(dataList)
+
 texts <- c(text_Chandler, text_Joey, text_Monica, text_Phoebe, text_Rachel, text_Ross)
 names(texts) <- paste("char", 1:length(texts)) #assigns a name to each string
 corpus_friends <- corpus(texts)
@@ -226,12 +211,3 @@ dfm_friends_1 <- dfm(tokens(corpus_friends,
 #Without stop words
 dfm_friends_2 <- dfm_remove(dfm_friends_1, stopwords("en"))
 topfeatures(dfm_friends_2)
-###### keras ###############
-
-
-
-
-
-
-
-
