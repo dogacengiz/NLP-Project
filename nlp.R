@@ -121,6 +121,7 @@ nrc_grouped <- aggregate(sentiment ~ word, data = nrc, c)
 sentimentMonica <-  sentimentMonica %>%
   right_join(nrc_grouped) 
 
+head(sentimentMonica)
 
 ############# Sentence Analysis ###########
 
@@ -130,10 +131,10 @@ sentenceAnalysis <- lapply(v_phrasesMonica[1:100],
 )
 df_results <- sentenceAnalysis[[1]] #A data frame with the first results
 
-for (i in 2:length(sentenceAnalysis)){ #Attention! The loop starts from 2
+for (i in 2:length(sentenceAnalysis)){ 
   df_results <- rbind(df_results, sentenceAnalysis[[i]])
 }
-
+head(df_results)
 
 ########### BPE  Model ##########################
 
