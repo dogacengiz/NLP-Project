@@ -92,9 +92,9 @@ v_tokensRachel <- unlist(tokensRachel)
 v_tokensRoss <- unlist(tokensRoss)
 
 
-length(v_tokensMonica) #442,164 tokens (many repeated)
+length(v_tokensMonica) 
 
-length(unique(v_tokensMonica)) #24,130 different (unique) tokens.
+length(unique(v_tokensMonica)) 
 
 head(sort(table(v_tokensMonica), decreasing = TRUE), n = 100)
 
