@@ -22,7 +22,7 @@ sum(friendsLines_NFC != friendsLines)
 
 ##### data process
 #corpus <- Corpus(VectorSource(friendsLines))
-c#orpus <- tm_map(corpus, content_transformer(function(x){replace_contraction(x)}))
+#corpus <- tm_map(corpus, content_transformer(function(x){replace_contraction(x)}))
 
 df <- data.frame(script= friendsLines)
 
@@ -54,10 +54,6 @@ for (j in characters){
   assign(phrases, spacy_tokenize(unlist(unlist(df_grouped$script[df_grouped$char == j])), what = "sentence")) 
 }
 
-'for (k in characters){
-  v_phrases <-paste0("v_phrases", k)
-  assign(v_phrases, unlist())
-}'
 
 
 #spacy_install()
@@ -87,14 +83,6 @@ for (j in characters){
   assign(tokens, spacy_tokenize(unlist(unlist(df_grouped$script[df_grouped$char == j])), remove_punct = TRUE)) 
 }
 
-'tokens <- spacy_tokenize(phrasesChandler,
-                         #Parameters asigned by default:
-                         remove_punct = TRUE
-                         #remove_url = FALSE, url elements are tokens
-                         #remove_numbers = FALSE, numbers are tokens
-                         #remove_separators = TRUE, spaces are NOT tokens
-                         #remove_symbols = FALSE, symbols (like ???) are tokens
-)#Returns a list'
 
 v_tokensChandler <- unlist(tokensChandler)
 v_tokensJoey <- unlist(tokensJoey)
